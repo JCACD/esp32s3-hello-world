@@ -48,6 +48,6 @@ void app_main(void)
         fflush(stdout);
 
         // 控制動畫幀率，避免 watchdog
-        vTaskDelay(pdMS_TO_TICKS(100));
+        vTaskDelay(pdMS_TO_TICKS(150));
     }
 }
