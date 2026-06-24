@@ -26,3 +26,46 @@ jobs:
           build/bootloader/bootloader.bin
           build/partition_table/partition-table.bin
           build/hello_world.bin
+
+    - name: Run Monitor (capture output)
+      run: |
+        . ${IDF_PATH}/export.sh
+        # monitor 會持續跑，這裡用 timeout 限制 30 秒
+        timeout 30s idf.py monitor > monitor.log 2>&1 || true
+
+    - name: Upload Monitor Log
+      uses: actions/upload-artifact@v4
+      with:
+        name: esp32s3-monitor-log
+        path: monitor.log
+
+
+
+# name: ESP32-S3 Build
+
+# on:
+#   push:
+#     branches: [ "main" ]
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     container: espressif/idf:v5.2.2
+
+#     steps:
+#     - uses: actions/checkout@v4
+
+#     - name: Build ESP32-S3 Hello World
+#       run: |
+#         . ${IDF_PATH}/export.sh
+#         idf.py set-target esp32s3
+#         idf.py build
+
+#     - name: Upload Binaries
+#       uses: actions/upload-artifact@v4
+#       with:
+#         name: esp32s3-hello-world-bin
+#         path: |
+#           build/bootloader/bootloader.bin
+#           build/partition_table/partition-table.bin
+#           build/hello_world.bin
